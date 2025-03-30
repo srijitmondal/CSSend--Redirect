@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Layout from '@/components/Layout';
@@ -12,7 +11,7 @@ import { Progress } from '@/components/ui/progress';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { CalendarDays, Users, Clock, AlertTriangle, Check, ExternalLink, Vote, Shield, Database } from 'lucide-react';
+import { CalendarDays, Users, Clock, AlertTriangle, Check, ExternalLink, Vote, Shield, Database, BarChart } from 'lucide-react';
 import { format, formatDistanceToNow, isPast, isFuture } from 'date-fns';
 import { toast } from 'sonner';
 
@@ -450,10 +449,10 @@ const ElectionDetailsPage = () => {
                 <div className="mt-6">
                   <h3 className="font-medium mb-2">Election Smart Contract</h3>
                   <div className="bg-muted p-3 rounded-md font-mono text-xs overflow-x-auto">
-                    <p>contract ElectionContract {`{`}</p>
-                    <p className="ml-4">mapping(address => bool) public hasVoted;</p>
-                    <p className="ml-4">mapping(uint => uint) public candidateVotes;</p>
-                    <p>{`}`}</p>
+                    <p>contract ElectionContract {"{"}</p>
+                    <p className="ml-4">mapping(address =&gt; bool) public hasVoted;</p>
+                    <p className="ml-4">mapping(uint =&gt; uint) public candidateVotes;</p>
+                    <p>{"}"}</p>
                   </div>
                 </div>
               </CardContent>
