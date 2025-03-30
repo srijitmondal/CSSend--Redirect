@@ -1,7 +1,6 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Shield, GitHub, Twitter, Linkedin } from 'lucide-react';
+import { Shield, Github, Twitter, Linkedin } from 'lucide-react';
 
 const Footer = () => {
   return (
@@ -18,7 +17,7 @@ const Footer = () => {
             </p>
             <div className="flex gap-4 mt-4">
               <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
-                <GitHub size={20} />
+                <Github size={20} />
               </a>
               <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
                 <Twitter size={20} />
