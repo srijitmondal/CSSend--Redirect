@@ -1,69 +1,119 @@
-# Welcome to your Lovable project
 
-## Project info
+# ElectraGuard - Blockchain-Based Secure Voting System
 
-**URL**: https://lovable.dev/projects/36808717-1373-46f7-b0b1-2122438f627b
+ElectraGuard is a blockchain-based secure voting system that ensures transparency, security, and immutability in elections. The system includes interfaces for both voters and election organizers, with secure authentication, real-time vote tallying, and a tamper-proof voting ledger.
 
-## How can I edit this code?
+## Features
 
-There are several ways of editing your application.
+- Secure voter authentication
+- Election creation and management
+- Real-time vote tallying
+- Tamper-proof voting ledger
+- Role-based access control
+- Vote encryption
+- Audit log for transparency
+- Blockchain transaction tracking
 
-**Use Lovable**
+## Getting Started
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/36808717-1373-46f7-b0b1-2122438f627b) and start prompting.
+Follow these steps to run ElectraGuard on your Windows computer:
 
-Changes made via Lovable will be committed automatically to this repo.
+### Prerequisites
 
-**Use your preferred IDE**
+- [Node.js](https://nodejs.org/) (v14.0 or higher)
+- [npm](https://www.npmjs.com/) (usually comes with Node.js)
+- A modern web browser (Chrome, Firefox, Edge, etc.)
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### Installation Steps
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+1. **Clone the repository**
 
-Follow these steps:
+   Open Command Prompt and run:
+   ```
+   git clone https://github.com/your-username/electrasecure-votechain.git
+   cd electrasecure-votechain
+   ```
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+2. **Install dependencies**
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+   ```
+   npm install
+   ```
 
-# Step 3: Install the necessary dependencies.
-npm i
+3. **Start the development server**
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+   ```
+   npm run dev
+   ```
 
-**Edit a file directly in GitHub**
+4. **Access the application**
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+   Open your web browser and navigate to:
+   ```
+   http://localhost:8080
+   ```
 
-**Use GitHub Codespaces**
+## Demo Accounts
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+For demo purposes, the system comes with two pre-configured accounts:
 
-## What technologies are used for this project?
+### Admin Account
+- Email: admin@example.com
+- Password: password
 
-This project is built with .
+### Voter Account
+- Email: voter@example.com
+- Password: password
 
-- Vite
-- TypeScript
+## Using ElectraGuard
+
+### For Voters
+1. Register with your email or log in if you already have an account
+2. Browse available elections
+3. View candidate details
+4. Cast your vote securely
+5. View real-time results
+6. Verify your vote on the blockchain
+
+### For Election Administrators
+1. Log in with admin credentials
+2. Create new elections
+3. Add candidates
+4. Set election duration
+5. Monitor voting progress
+6. View detailed results
+7. Export election data
+
+## System Architecture
+
+ElectraGuard uses a simulated blockchain system (for demonstration purposes) with the following components:
+
+- React frontend with TypeScript
+- Blockchain interaction logic
+- Smart contract simulation
+- User authentication system
+- Real-time vote counting
+
+## Technology Stack
+
 - React
-- shadcn-ui
+- TypeScript
 - Tailwind CSS
+- shadcn/ui components
+- Authentication system
+- Blockchain interaction simulation
 
-## How can I deploy this project?
+## Next Steps
 
-Simply open [Lovable](https://lovable.dev/projects/36808717-1373-46f7-b0b1-2122438f627b) and click on Share -> Publish.
+In a production environment, ElectraGuard would be integrated with:
 
-## I want to use a custom domain - is that possible?
+- Ethereum (Solidity) or Hyperledger blockchain infrastructure
+- web3.js for blockchain interactions
+- Metamask or similar wallet integration
+- Smart contracts for vote recording
+- IPFS for distributed storage
 
-We don't support custom domains (yet). If you want to deploy your project under your own domain then we recommend using Netlify. Visit our docs for more details: [Custom domains](https://docs.lovable.dev/tips-tricks/custom-domain/)
+## License
+
+MIT
+
