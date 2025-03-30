@@ -30,7 +30,7 @@ Follow these steps to run ElectraGuard on your Windows computer:
 
    Open Command Prompt and run:
    ```
-   git clone https://github.com/your-username/electrasecure-votechain.git
+   git clone https://github.com/srijitmondal/electrasecure-votechain.git
    cd electrasecure-votechain
    ```
 
