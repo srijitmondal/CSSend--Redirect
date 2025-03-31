@@ -55,7 +55,7 @@ Follow these steps to run ElectraGuard on your Windows computer:
 
 ## Demo Accounts
 
-For demo purposes, the system comes with two pre-configured accounts:
+For demo purposes, the system is set with two pre-configured accounts:
 
 ### Admin Account
 - Email: admin@example.com
