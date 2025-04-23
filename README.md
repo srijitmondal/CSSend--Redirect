@@ -92,7 +92,7 @@ ElectraGuard uses a simulated blockchain system (for demonstration purposes) wit
 
 - 🚀 **React frontend with TypeScript**
 - 🔗 **Blockchain interaction logic**
-- 📝 **Smart contract simulation**
+- 📝 **Smart contract using Solidity**
 - 🔒 **User authentication system**
 - 📊 **Real-time vote counting**
 
@@ -103,6 +103,8 @@ ElectraGuard uses a simulated blockchain system (for demonstration purposes) wit
 - 🌐 **React**
 - 📝 **TypeScript**
 - 🎨 **Tailwind CSS**
+- ⛓️ **Ethereum (Solidity) or Hyperledger blockchain infrastructure**
+- 🔗 **web3.js for blockchain interactions**
 - 🏗️ **shadcn/ui components**
 - 🔐 **Authentication system**
 - ⛓️ **Blockchain interaction simulation**
@@ -123,7 +125,6 @@ _(You can view screenshots of key pages below to get a visual guide of the syste
 
 In a production environment, ElectraGuard would be integrated with:
 
-- ⛓️ **Ethereum (Solidity) or Hyperledger blockchain infrastructure**
 - 🔗 **web3.js for blockchain interactions**
 - 🔐 **Metamask or similar wallet integration**
 - 📝 **Smart contracts for vote recording**
