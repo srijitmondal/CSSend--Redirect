@@ -38,12 +38,17 @@ Follow these steps to run ElectraGuard on your Windows computer:
    npm install
    ```
 
-3. **Start the development server**
+3. **Download Ganache and start it by clicking Quick Start**
+   ```sh
+   (https://github.com/trufflesuite/ganache-ui/releases/download/v2.7.1/Ganache-2.7.1-win-x64.appx)
+   ```   
+
+4. **Start the development server**
    ```sh
    npm run dev
    ```
 
-4. **Access the application**
+5. **Access the application**
    Open your web browser and navigate to:
    ```
    http://localhost:8080
