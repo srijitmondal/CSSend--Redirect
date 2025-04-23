@@ -103,7 +103,7 @@ ElectraGuard uses a simulated blockchain system (for demonstration purposes) wit
 - 🌐 **React**
 - 📝 **TypeScript**
 - 🎨 **Tailwind CSS**
-- ⛓️ **Ethereum (Solidity) or Hyperledger blockchain infrastructure**
+- ⛓️ **Ethereum (Solidity)**
 - 🔗 **web3.js for blockchain interactions**
 - 🏗️ **shadcn/ui components**
 - 🔐 **Authentication system**
