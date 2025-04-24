@@ -13,7 +13,7 @@ ElectraGuard is a blockchain-based secure voting system that ensures transparenc
 - ✅ **Audit log for transparency**
 - ✅ **Blockchain transaction tracking**
 
----
+----
 
 ## Getting Started
 
