@@ -1,4 +1,4 @@
-# ElectraGuard - Blockchain-Based Secure Voting System
+# ElectraGuard - Blockchain-Based Secure end-to-end Voting System
 
 ElectraGuard is a blockchain-based secure voting system that ensures transparency, security, and immutability in elections. The system includes interfaces for both voters and election organizers, with secure authentication, real-time vote tallying, and a tamper-proof voting ledger.
 
