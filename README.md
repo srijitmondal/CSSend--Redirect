@@ -24,6 +24,7 @@ Follow these steps to run ElectraGuard on your Windows computer:
 - [Node.js](https://nodejs.org/) (v14.0 or higher)
 - [npm](https://www.npmjs.com/) (usually comes with Node.js)
 - A modern web browser (Firefox, Edge, Chrome, etc.)
+- Ganneche
 
 ### Installation Steps
 
