@@ -2,6 +2,8 @@
 
 ElectraGuard is a blockchain-based secure voting system that ensures transparency, security, and immutability in elections. The system includes interfaces for both voters and election organizers, with secure authentication, real-time vote tallying, and a tamper-proof voting ledger.
 
+🔗 **Live Demo:** <a href="https://electraguard.netlify.app" target="_blank">electraguard.netlify.app</a>
+
 ## Features
 
 - ✅ **Secure voter authentication**
