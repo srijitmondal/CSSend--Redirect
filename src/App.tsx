@@ -1,6 +1,7 @@
+
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { QueryClient } from 'react-query';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Layout from '@/components/Layout';
 import HomePage from '@/pages/HomePage';
 import ElectionsPage from '@/pages/ElectionsPage';
@@ -14,9 +15,11 @@ import { BlockchainProvider } from '@/context/BlockchainContext';
 import { Toaster } from '@/components/ui/sonner';
 import { Web3Provider } from '@/context/Web3Context';
 
+const queryClient = new QueryClient();
+
 function App() {
   return (
-    <QueryClient>
+    <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <Web3Provider>
           <AuthProvider>
@@ -37,7 +40,7 @@ function App() {
           </AuthProvider>
         </Web3Provider>
       </BrowserRouter>
-    </QueryClient>
+    </QueryClientProvider>
   );
 }
 
