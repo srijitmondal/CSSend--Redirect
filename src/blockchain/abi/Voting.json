@@ -1,44 +1,127 @@
 
-pragma solidity ^0.8.0;
-
-contract Voting {
-    address public owner;
-
-    struct Candidate {
-        string name;
-        uint voteCount;
-    }
-
-    mapping(uint => Candidate) public candidates;
-    mapping(address => bool) public hasVoted;
-
-    uint public candidatesCount;
-
-    constructor() {
-        owner = msg.sender;
-        addCandidate("Alice");
-        addCandidate("Bob");
-    }
-
-    modifier onlyOnce() {
-        require(!hasVoted[msg.sender], "Already voted.");
-        _;
-    }
-
-    function addCandidate(string memory _name) public {
-        require(msg.sender == owner, "Only owner can add.");
-        candidates[candidatesCount] = Candidate(_name, 0);
-        candidatesCount++;
-    }
-
-    function vote(uint _candidateId) public onlyOnce {
-        require(_candidateId < candidatesCount, "Invalid candidate.");
-        candidates[_candidateId].voteCount++;
-        hasVoted[msg.sender] = true;
-    }
-
-    function getCandidate(uint _id) public view returns (string memory, uint) {
-        Candidate memory c = candidates[_id];
-        return (c.name, c.voteCount);
-    }
-}
+[
+  {
+    "inputs": [],
+    "name": "candidatesCount",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "candidates",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "voteCount",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "hasVoted",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_candidateId",
+        "type": "uint256"
+      }
+    ],
+    "name": "vote",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_id",
+        "type": "uint256"
+      }
+    ],
+    "name": "getCandidate",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "_name",
+        "type": "string"
+      }
+    ],
+    "name": "addCandidate",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "owner",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }
+]
