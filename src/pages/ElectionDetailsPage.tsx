@@ -14,6 +14,8 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { CalendarDays, Users, Clock, AlertTriangle, Check, ExternalLink, Vote, Shield, Database, BarChart } from 'lucide-react';
 import { format, formatDistanceToNow, isPast, isFuture } from 'date-fns';
 import { toast } from 'sonner';
+import MetaMaskConnect from '@/components/MetaMaskConnect';
+import BlockchainVoting from '@/components/BlockchainVoting';
 
 const ElectionDetailsPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -182,6 +184,7 @@ const ElectionDetailsPage = () => {
                 <TabsTrigger value="candidates">Candidates</TabsTrigger>
                 <TabsTrigger value="results">Live Results</TabsTrigger>
                 <TabsTrigger value="blockchain">Blockchain Data</TabsTrigger>
+                <TabsTrigger value="web3-voting">Web3 Voting</TabsTrigger>
               </TabsList>
               
               <TabsContent value="candidates">
@@ -400,6 +403,13 @@ const ElectionDetailsPage = () => {
                     </div>
                   </CardContent>
                 </Card>
+              </TabsContent>
+              
+              <TabsContent value="web3-voting">
+                <div className="space-y-6">
+                  <MetaMaskConnect />
+                  <BlockchainVoting />
+                </div>
               </TabsContent>
             </Tabs>
           </div>
