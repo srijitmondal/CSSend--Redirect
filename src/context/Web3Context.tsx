@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { ethers } from 'ethers';
 import { toast } from 'sonner';
@@ -123,8 +122,9 @@ export const Web3Provider: React.FC<{ children: React.ReactNode }> = ({ children
         return null;
       }
 
-      // Send transaction
-      const tx = await contractWithSigner.vote(candidateId);
+      // Send transaction - using getFunction to properly type the call
+      const voteFunction = contractWithSigner.getFunction('vote');
+      const tx = await voteFunction(candidateId);
       toast.success('Transaction submitted! Waiting for confirmation...');
       
       // Wait for transaction confirmation
