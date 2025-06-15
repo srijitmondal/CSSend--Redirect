@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { useWeb3 } from '@/context/Web3Context';
-import { Vote, Check, ExternalLink, AlertTriangle } from 'lucide-react';
+import { Vote, Check, ExternalLink, AlertTriangle, Clock } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface BlockchainCandidate {
@@ -23,7 +23,8 @@ const BlockchainVoting = () => {
     castVote, 
     checkIfVoted, 
     getCandidateData, 
-    getCandidatesCount 
+    getCandidatesCount,
+    getElectionStatus
   } = useWeb3();
   
   const [candidates, setCandidates] = useState<BlockchainCandidate[]>([]);
@@ -31,6 +32,7 @@ const BlockchainVoting = () => {
   const [hasVoted, setHasVoted] = useState(false);
   const [isVoting, setIsVoting] = useState(false);
   const [lastTransactionHash, setLastTransactionHash] = useState<string | null>(null);
+  const [electionStatus, setElectionStatus] = useState<{started: boolean, ended: boolean} | null>(null);
 
   // Load candidates from blockchain
   const loadCandidates = async () => {
@@ -38,14 +40,10 @@ const BlockchainVoting = () => {
       const count = await getCandidatesCount();
       const candidateList: BlockchainCandidate[] = [];
       
-      for (let i = 0; i < count; i++) {
+      for (let i = 1; i <= count; i++) { // Candidates start from ID 1
         const candidateData = await getCandidateData(i);
         if (candidateData) {
-          candidateList.push({
-            id: i,
-            name: candidateData.name,
-            voteCount: candidateData.voteCount
-          });
+          candidateList.push(candidateData);
         }
       }
       
@@ -62,6 +60,12 @@ const BlockchainVoting = () => {
       const voted = await checkIfVoted(account);
       setHasVoted(voted);
     }
+  };
+
+  // Load election status
+  const loadElectionStatus = async () => {
+    const status = await getElectionStatus();
+    setElectionStatus(status);
   };
 
   // Handle vote submission
@@ -89,6 +93,7 @@ const BlockchainVoting = () => {
     if (isConnected) {
       loadCandidates();
       checkVotingStatus();
+      loadElectionStatus();
     }
   }, [isConnected, account]);
 
@@ -104,6 +109,8 @@ const BlockchainVoting = () => {
     );
   }
 
+  const canVote = electionStatus?.started && !electionStatus?.ended;
+
   return (
     <div className="space-y-6">
       <Card>
@@ -117,6 +124,36 @@ const BlockchainVoting = () => {
           </CardDescription>
         </CardHeader>
         <CardContent>
+          {electionStatus && (
+            <Alert className={`mb-4 ${
+              canVote ? 'bg-green-50 border-green-200' : 
+              !electionStatus.started ? 'bg-blue-50 border-blue-200' :
+              'bg-gray-50 border-gray-200'
+            }`}>
+              <Clock className={`h-4 w-4 ${
+                canVote ? 'text-green-600' : 
+                !electionStatus.started ? 'text-blue-600' :
+                'text-gray-600'
+              }`} />
+              <AlertTitle className={
+                canVote ? 'text-green-800' : 
+                !electionStatus.started ? 'text-blue-800' :
+                'text-gray-800'
+              }>
+                Election Status
+              </AlertTitle>
+              <AlertDescription className={
+                canVote ? 'text-green-700' : 
+                !electionStatus.started ? 'text-blue-700' :
+                'text-gray-700'
+              }>
+                {!electionStatus.started && 'Election has not started yet.'}
+                {electionStatus.started && !electionStatus.ended && 'Election is currently active. You can vote now!'}
+                {electionStatus.ended && 'Election has ended. Voting is closed.'}
+              </AlertDescription>
+            </Alert>
+          )}
+
           {hasVoted && (
             <Alert className="mb-4 bg-green-50 border-green-200">
               <Check className="h-4 w-4 text-green-600" />
@@ -148,8 +185,8 @@ const BlockchainVoting = () => {
                   key={candidate.id}
                   className={`cursor-pointer transition-colors ${
                     selectedCandidate === candidate.id ? 'ring-2 ring-blue-500' : ''
-                  } ${hasVoted ? 'opacity-60 cursor-not-allowed' : ''}`}
-                  onClick={() => !hasVoted && setSelectedCandidate(candidate.id)}
+                  } ${hasVoted || !canVote ? 'opacity-60 cursor-not-allowed' : ''}`}
+                  onClick={() => !hasVoted && canVote && setSelectedCandidate(candidate.id)}
                 >
                   <CardContent className="p-4">
                     <div className="flex items-center justify-between">
@@ -160,7 +197,7 @@ const BlockchainVoting = () => {
                         </p>
                       </div>
                       <div className="flex items-center gap-2">
-                        {selectedCandidate === candidate.id && !hasVoted && (
+                        {selectedCandidate === candidate.id && !hasVoted && canVote && (
                           <Badge>Selected</Badge>
                         )}
                         <Badge variant="outline">ID: {candidate.id}</Badge>
@@ -174,7 +211,7 @@ const BlockchainVoting = () => {
             )}
           </div>
 
-          {!hasVoted && (
+          {!hasVoted && canVote && (
             <div className="mt-6 flex justify-end">
               <AlertDialog>
                 <AlertDialogTrigger asChild>

@@ -3,50 +3,8 @@ import React, { createContext, useContext, useState, useEffect, useCallback } fr
 import { ethers } from 'ethers';
 import { toast } from 'sonner';
 
-// Contract ABI - you'll need to replace this with your actual contract ABI
-const CONTRACT_ABI = [
-  {
-    "inputs": [],
-    "name": "candidatesCount",
-    "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
-    "name": "candidates",
-    "outputs": [
-      {"internalType": "string", "name": "name", "type": "string"},
-      {"internalType": "uint256", "name": "voteCount", "type": "uint256"}
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [{"internalType": "address", "name": "", "type": "address"}],
-    "name": "hasVoted",
-    "outputs": [{"internalType": "bool", "name": "", "type": "bool"}],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [{"internalType": "uint256", "name": "_candidateId", "type": "uint256"}],
-    "name": "vote",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [{"internalType": "uint256", "name": "_id", "type": "uint256"}],
-    "name": "getCandidate",
-    "outputs": [
-      {"internalType": "string", "name": "", "type": "string"},
-      {"internalType": "uint256", "name": "", "type": "uint256"}
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  }
-];
+// Import the contract ABI
+import contractABI from '../blockchain/abi/Voting.json';
 
 // Replace with your deployed contract address from Ganache
 const CONTRACT_ADDRESS = "0xYourDeployedContractAddressHere";
@@ -60,8 +18,9 @@ interface Web3ContextType {
   disconnectWallet: () => void;
   castVote: (candidateId: number) => Promise<string | null>;
   checkIfVoted: (address: string) => Promise<boolean>;
-  getCandidateData: (candidateId: number) => Promise<{name: string, voteCount: number} | null>;
+  getCandidateData: (candidateId: number) => Promise<{id: number, name: string, voteCount: number} | null>;
   getCandidatesCount: () => Promise<number>;
+  getElectionStatus: () => Promise<{started: boolean, ended: boolean} | null>;
 }
 
 const Web3Context = createContext<Web3ContextType | undefined>(undefined);
@@ -92,7 +51,7 @@ export const Web3Provider: React.FC<{ children: React.ReactNode }> = ({ children
 
     try {
       const provider = new ethers.BrowserProvider(window.ethereum);
-      const contractInstance = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, provider);
+      const contractInstance = new ethers.Contract(CONTRACT_ADDRESS, contractABI, provider);
       setContract(contractInstance);
 
       // Check if already connected
@@ -158,8 +117,8 @@ export const Web3Provider: React.FC<{ children: React.ReactNode }> = ({ children
       const contractWithSigner = contract.connect(signer);
 
       // Check if user has already voted
-      const hasVoted = await contract.hasVoted(account);
-      if (hasVoted) {
+      const voterData = await contract.voters(account);
+      if (voterData[0]) { // hasVoted is the first element
         toast.error('You have already voted!');
         return null;
       }
@@ -177,8 +136,12 @@ export const Web3Provider: React.FC<{ children: React.ReactNode }> = ({ children
       console.error('Failed to cast vote:', error);
       if (error.code === 4001) {
         toast.error('Transaction was rejected by user');
-      } else if (error.message.includes('Already voted')) {
+      } else if (error.message.includes('already voted')) {
         toast.error('You have already voted!');
+      } else if (error.message.includes('Election has not started')) {
+        toast.error('Election has not started yet!');
+      } else if (error.message.includes('Election has already ended')) {
+        toast.error('Election has already ended!');
       } else {
         toast.error('Failed to cast vote: ' + (error.reason || error.message));
       }
@@ -193,7 +156,8 @@ export const Web3Provider: React.FC<{ children: React.ReactNode }> = ({ children
     if (!contract) return false;
     
     try {
-      return await contract.hasVoted(address);
+      const voterData = await contract.voters(address);
+      return voterData[0]; // hasVoted is the first element
     } catch (error) {
       console.error('Failed to check voting status:', error);
       return false;
@@ -201,12 +165,16 @@ export const Web3Provider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   // Get candidate data
-  const getCandidateData = async (candidateId: number): Promise<{name: string, voteCount: number} | null> => {
+  const getCandidateData = async (candidateId: number): Promise<{id: number, name: string, voteCount: number} | null> => {
     if (!contract) return null;
     
     try {
-      const [name, voteCount] = await contract.getCandidate(candidateId);
-      return { name, voteCount: Number(voteCount) };
+      const [id, name, voteCount] = await contract.getCandidate(candidateId);
+      return { 
+        id: Number(id), 
+        name: name, 
+        voteCount: Number(voteCount) 
+      };
     } catch (error) {
       console.error('Failed to get candidate data:', error);
       return null;
@@ -223,6 +191,19 @@ export const Web3Provider: React.FC<{ children: React.ReactNode }> = ({ children
     } catch (error) {
       console.error('Failed to get candidates count:', error);
       return 0;
+    }
+  };
+
+  // Get election status
+  const getElectionStatus = async (): Promise<{started: boolean, ended: boolean} | null> => {
+    if (!contract) return null;
+    
+    try {
+      const [started, ended] = await contract.getElectionStatus();
+      return { started, ended };
+    } catch (error) {
+      console.error('Failed to get election status:', error);
+      return null;
     }
   };
 
@@ -268,7 +249,8 @@ export const Web3Provider: React.FC<{ children: React.ReactNode }> = ({ children
       castVote,
       checkIfVoted,
       getCandidateData,
-      getCandidatesCount
+      getCandidatesCount,
+      getElectionStatus
     }}>
       {children}
     </Web3Context.Provider>
